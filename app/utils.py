@@ -5,6 +5,8 @@ from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 import numpy as np
 import re
+import nltk
+nltk.download('wordnet')
 
 w2v = pickle.load(open('model/w2v.pkl', 'rb'))
 # word2tfidf = pickle.load(open('model/word2tfidf.pkl', 'rb'))
