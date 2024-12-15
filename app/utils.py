@@ -7,7 +7,8 @@ import numpy as np
 import re
 
 w2v = pickle.load(open('model/w2v.pkl', 'rb'))
-word2tfidf = pickle.load(open('model/word2tfidf.pkl', 'rb'))
+# word2tfidf = pickle.load(open('model/word2tfidf.pkl', 'rb'))
+vector_size = w2v.vector_size
 
 lemmatizer = WordNetLemmatizer()
 
@@ -188,21 +189,15 @@ def preprocess(q):
     return q
 
 
-def sentence_to_tfidf_weighted_word2vec(sentence, word2tfidf, w2v):
-    
-    weighted_embeddings = []
-    for word in sentence:
-        if word in w2v.wv.key_to_index and word in word2tfidf:
-            embedding = w2v.wv[word] * word2tfidf[word]
-            weighted_embeddings.append(embedding)
-
-    if weighted_embeddings:
-        return np.mean(weighted_embeddings, axis=0)
+def sentence_to_vector(sentence, model, vector_size):
+   
+    word_vectors = [model.wv[word] for word in sentence if word in model.wv]
+    if word_vectors:
+        return np.mean(word_vectors, axis=0)
     else:
-        return np.zeros(w2v.vector_size)
+        return np.zeros(vector_size)
+
     
-
-
 
 
 def test_get_token_features(q1, q2):
@@ -335,9 +330,10 @@ def query_point_creator(q1, q2):
     input_query_features.append(test_common_words(q1, q2))
     input_query_features.append(test_common_words(q1, q2)/test_total_words(q1, q2))
 
-    q1_embedding = sentence_to_tfidf_weighted_word2vec(q1.split(" "), word2tfidf, w2v).reshape(1, -1)
-    q2_embedding = sentence_to_tfidf_weighted_word2vec(q2.split(" "), word2tfidf, w2v).reshape(1, -1)
+    q1_embedding = sentence_to_vector(q1.split(" "), w2v, vector_size).reshape(1, -1)
+    q2_embedding = sentence_to_vector(q2.split(" "), w2v, vector_size).reshape(1, -1)
 
     return np.hstack((np.array(input_query_features).reshape(1, 22), q1_embedding, q2_embedding))
+
    
   
