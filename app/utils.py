@@ -7,6 +7,7 @@ import numpy as np
 import re
 import nltk
 nltk.download('wordnet')
+nltk.download('stopwords')
 
 w2v = pickle.load(open('model/w2v.pkl', 'rb'))
 # word2tfidf = pickle.load(open('model/word2tfidf.pkl', 'rb'))
