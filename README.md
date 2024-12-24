@@ -59,14 +59,6 @@ Experimented with various machine learning models:
 2. Performed hyperparameter tuning using Grid Search and Randomized Search CV.
 3. Achieved an accuracy of approximately 79%.
 
-## Deployment
-
-The application is deployed using  **Streamlit** , allowing users to input question pairs and receive predictions on whether they are duplicates.
-
-### URL
-
-Access the application [here](https://chatgpt.com/c/URL-provide-your-link).
-
 ## Installation
 
 1. Clone this repository:
